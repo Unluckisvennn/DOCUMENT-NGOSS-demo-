@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>DOCUMENT 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+html, body { margin:0; padding:0; width:100%; height:100%; font-family:'Inter',sans-serif; background:#000; color:white; overflow:hidden; }
+.page { width:100%; height:100%; display:none; justify-content:center; align-items:center; flex-direction:column; text-align:center; position:absolute; top:0; left:0; }
+.page.active { display:flex; }
+img { width:90%; max-width:400px; border-radius:16px; cursor:pointer; margin-bottom:20px; }
+button { padding:12px 25px; font-size:18px; border:none; border-radius:10px; cursor:pointer; background:#b00000; color:white; margin-top:20px; }
+audio { width:90%; max-width:400px; margin-top:20px; display:none; }
+#finalVideo { width:90%; max-width:800px; max-height:90%; object-fit:contain; }
+@media(max-width:600px){ button{font-size:16px;padding:12px 20px;} }
+</style>
+</head>
+<body>
+
+<!-- Page Cover -->
+<div id="coverPage" class="page active">
+  <img id="cover" src="cover.jpg" alt="Cover Album">
+  <div>Clique sur la cover pour commencer</div>
+</div>
+
+<!-- Page Tracklist Image -->
+<div id="tracklistPage" class="page">
+  <img src="tracklist.jpg" alt="Tracklist">
+  <button id="nextTracklist">Suivant</button>
+</div>
+
+<!-- Pages Tracks Individuelles -->
+<div id="track1Page" class="page">
+  <h2>Track 1 — DOCUMENT 1</h2>
+  <audio id="audio1" controls src="track1.mp3"></audio>
+  <button id="next1" style="display:none;">Suivant</button>
+</div>
+<div id="track2Page" class="page">
+  <h2>Track 2 — DOCUMENT 2 <span style="color:#b00000;">Feat O'G</span></h2>
+  <audio id="audio2" controls src="track2.mp3"></audio>
+  <button id="next2" style="display:none;">Suivant</button>
+</div>
+<div id="track3Page" class="page">
+  <h2>Track 3 — PREPA <span style="color:#b00000;">Feat LUSHOW</span></h2>
+  <audio id="audio3" controls src="track3.mp3"></audio>
+  <button id="next3" style="display:none;">Suivant</button>
+</div>
+<div id="track4Page" class="page">
+  <h2>Track 4 — ANNEXE</h2>
+  <audio id="audio4" controls src="track4.mp3"></audio>
+  <button id="unlockVideo" style="display:none;">Débloquer la surprise 🎬</button>
+</div>
+
+<!-- Page Vidéo -->
+<div id="videoPage" class="page">
+  <video id="finalVideo" controls playsinline></video>
+</div>
+
+<script>
+function showPage(pageId){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(pageId).classList.add('active'); }
+
+// Cover -> Tracklist
+document.getElementById('cover').addEventListener('click',()=>{ showPage('tracklistPage'); });
+
+// Tracklist -> Track1
+document.getElementById('nextTracklist').addEventListener('click',()=>{ showPage('track1Page'); document.getElementById('audio1').play(); });
+
+// Track 1
+const audio1 = document.getElementById('audio1');
+audio1.onended = ()=>{ document.getElementById('next1').style.display='inline-block'; };
+document.getElementById('next1').addEventListener('click',()=>{ showPage('track2Page'); document.getElementById('audio2').play(); });
+
+// Track 2
+const audio2 = document.getElementById('audio2');
+audio2.onended = ()=>{ document.getElementById('next2').style.display='inline-block'; };
+document.getElementById('next2').addEventListener('click',()=>{ showPage('track3Page'); document.getElementById('audio3').play(); });
+
+// Track 3
+const audio3 = document.getElementById('audio3');
+audio3.onended = ()=>{ document.getElementById('next3').style.display='inline-block'; };
+document.getElementById('next3').addEventListener('click',()=>{ showPage('track4Page'); document.getElementById('audio4').play(); });
+
+// Track 4
+const audio4 = document.getElementById('audio4');
+audio4.onended = ()=>{ document.getElementById('unlockVideo').style.display='inline-block'; };
+document.getElementById('unlockVideo').addEventListener('click',()=>{
+  showPage('videoPage');
+  const finalVideo = document.getElementById('finalVideo');
+  finalVideo.src='final-video.mp4';
+  finalVideo.play();
+});
+
+// Fin vidéo
+document.getElementById('finalVideo').onended = ()=>{ alert('ON SE RETROUVE DANS DOCUMENT 2'); };
+</script>
+</body>
+</html>
